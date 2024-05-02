@@ -67,12 +67,12 @@ const CardContainer = () => {
   return (
     <>
       <Grid container spacing={2} sx={{ flexGrow: 1, margin: "1rem" }}>
-        {!!jdList?.length &&
+        {!!jdList?.length ?
           jdList.map((item: JdList) => (
             <Grid item xs={12} sm={8} md={6} lg={4} key={item.jdUid}>
               <Card item={item}/>
             </Grid>
-          ))}
+          )): <h1>No Data Available</h1>}
       </Grid>
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
