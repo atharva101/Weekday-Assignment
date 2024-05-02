@@ -8,5 +8,9 @@ export interface JdList {
   jobRole: string;
   jdLink: string;
   jdUid:string;
-  minExp: number
+  minExp: number;
+  company: string
+  role:string ;
+  minJdSalary : number
+
 }

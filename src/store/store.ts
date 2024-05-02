@@ -1,10 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import dataReducer from "./dataSlice";
+import filterSlice from "./filterSlice";
+
+const rootReducer = combineReducers({
+  data: dataReducer,
+  filter:filterSlice
+});
 
 const store = configureStore({
-  reducer: {
-    data: dataReducer,
-  },
+  reducer: rootReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

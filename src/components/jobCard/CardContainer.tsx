@@ -10,13 +10,15 @@ import { Grid, Paper, Box, Button, Typography } from "@mui/material";
 import AboutSection from "./AboutSection";
 import InfoBox from "./InfoBox";
 import { JdList } from "../../typings/types";
+import { selectFilteredJdList } from "../../store/filterSelectors";
 
 const CardContainer = () => {
   const dispatch = useDispatch();
   const [offSet, setOffset] = useState(0);
-  const { jdList, loading, error } = useSelector(
+  const {  loading, error } = useSelector(
     (state: RootState) => state.data
   );
+  const jdList = useSelector((state: RootState) => selectFilteredJdList(state));
 
   useEffect(() => {
     fetchData();
@@ -24,6 +26,7 @@ const CardContainer = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  
   const fetchData = () => {
     dispatch(fetchDataStart());
     fetchJobs(offSet)
@@ -62,7 +65,6 @@ const CardContainer = () => {
       fetchData();
     }
   };
-console.log(jdList, "hehe");
 
   
   return (

@@ -1,6 +1,5 @@
 // dataSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { Idata } from "../typings/types";
 const initialState = {
   jdList: [],
   loading: false,
