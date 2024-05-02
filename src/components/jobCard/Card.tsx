@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import AboutSection from "./AboutSection";
 import InfoBox from "./InfoBox";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 const Card = () => {
   return (
@@ -38,6 +38,8 @@ const Card = () => {
               </Box>
              
               <AboutSection about= {item.jobDetailsFromCompany}/>
+
+              <Button variant="contained" sx= {{width: "100%", marginTop:"20px"}}>Easy Apply</Button>
             </Paper>
           </Grid>
         ))}

@@ -1,4 +1,4 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, Button } from "@mui/material";
 
 const AboutSection = ({ about }: { about: string }) => {
   return (
@@ -15,12 +15,13 @@ const AboutSection = ({ about }: { about: string }) => {
       </Typography>
       <div
         style={{
-          maxHeight: "20.8em" /* Set a maximum height */,
+          maxHeight: "20.8em" ,
           overflow: "hidden",
         }}
       >
         <Typography sx={{}}>{about}</Typography>
       </div>
+      <Button sx = {{margin: "auto", width: "100%"}}>Show More</Button>
     </Box>
   );
 };
