@@ -44,7 +44,7 @@ const Header = () => {
         options={experienceOptions}
       />
       <TextField
-        sx={{ marginTop: "8px" }}
+        sx={{ margin: "8px" }}
         label="Company Name"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           handleChange("Company Name", e)

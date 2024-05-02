@@ -1,6 +1,7 @@
 import { Typography, Box, Button } from "@mui/material";
+import AboutUsModal from "./Modal";
 
-const AboutSection = ({ about }: { about: string }) => {
+const AboutSection = ({ about, setOpenModal }: { about: string , setOpenModal: React.Dispatch<React.SetStateAction<boolean>>}) => {
   return (
     <Box sx={{ textAlign: "initial" }}>
       <Typography
@@ -22,7 +23,7 @@ const AboutSection = ({ about }: { about: string }) => {
         <Typography>{about}</Typography>
       </div>
 
-      <Button sx = {{margin: "auto", width: "100%"}}>Show More</Button>
+      <Button sx = {{margin: "auto", width: "100%"}} onClick = {()=> setOpenModal(true)}>Show More</Button>
     </Box>
   );
 };
