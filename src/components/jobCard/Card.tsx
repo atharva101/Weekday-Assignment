@@ -36,10 +36,15 @@ const Card = () => {
                   location={item.location}
                 />
               </Box>
-             
-              <AboutSection about= {item.jobDetailsFromCompany}/>
 
-              <Button variant="contained" sx= {{width: "100%", marginTop:"20px"}}>Easy Apply</Button>
+              <AboutSection about={item.jobDetailsFromCompany} />
+
+              <Button
+                variant="contained"
+                sx={{ width: "100%", marginTop: "20px", height: "50px" }}
+              >
+                Easy Apply
+              </Button>
             </Paper>
           </Grid>
         ))}
