@@ -1,73 +1,114 @@
-import Grid from "@mui/material/Grid";
-import { useEffect, useState } from "react";
-import { Idata } from "../../typings/types";
-import { Card } from "./Card";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchDataStart,
+  fetchDataSuccess,
+  fetchDataFailure,
+} from "../../store/dataSlice";
+import { RootState } from "../../store/store";
+import { Grid, Paper, Box, Button } from "@mui/material";
+import AboutSection from "./AboutSection";
+import InfoBox from "./InfoBox";
+import { JdList } from "../../typings/types";
 
 const CardContainer = () => {
-  const [isLoading, setisLoading] = useState(true);
-  const [data, setData] = useState<Idata>();
-  const [offSet, setOffSet] = useState(0);
+  const dispatch = useDispatch();
+  const [offSet, setOffset] = useState(0);
+  const { jdList, loading, error } = useSelector(
+    (state: RootState) => state.data
+  );
 
-  function fetchData() {
-    setisLoading(true);
+  useEffect(() => {
+    fetchData();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const fetchData = () => {
+    dispatch(fetchDataStart());
+    fetchJobs(offSet)
+      .then((data) => {
+        setOffset((prevOffset) => prevOffset + 10);
+        dispatch(fetchDataSuccess(data));
+      })
+      .catch((error) => dispatch(fetchDataFailure(error.message)));
+  };
+
+  const fetchJobs = async (offset: number) => {
     const body = JSON.stringify({
-      limit: 20,
-      offset: offSet,
+      limit: 10,
+      offset: offset,
     });
-
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
     };
-
-    return fetch(
+    const response = await fetch(
       "https://api.weekday.technology/adhoc/getSampleJdJSON",
       requestOptions
-    )
-      .then((response) => response.text())
-      .then((response: any) => {
-        const result = JSON.parse(response);
-        setOffSet((prev) => prev + 20);
-        setisLoading(false);
-        setData((prev) => ({
-          ...result,
-          jdList: prev?.jdList
-            ? [...prev.jdList, ...result.jdList]
-            : result.jdList,
-        }));
-      })
-      .catch((error) => console.error(error));
-  }
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading
-    ) {
-      return;
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
     }
-    fetchData();
+    return response.json();
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      fetchData();
+    }
+  };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isLoading]);
+  console.log(jdList, "hehe");
+  
   return (
     <>
       <Grid container spacing={2} sx={{ flexGrow: 1, margin: "1rem" }}>
-        {!!data?.jdList?.length &&
-          data?.jdList?.map((item) => (
-            <Grid item xs={12} sm={8} md={6} lg={4}>
-              <Card item={item}></Card>
+        {!!jdList?.length &&
+          jdList?.map((item: JdList) => (
+            <Grid item xs={12} sm={8} md={6} lg={4} key={item.jdUid}>
+              <Paper
+                elevation={2}
+                sx={{
+                  height: "35rem",
+                  maxWidth: "22rem",
+                  padding: "30px",
+                  backgroundColor: (theme) =>
+                    theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+                }}
+              >
+                <Box sx={{ display: "flex", gap: "15px" }}>
+                  <img
+                    src="./weekday.png"
+                    height={30}
+                    width={40}
+                    alt="logo"
+                  />
+                  <InfoBox
+                    jdLink={item.jdLink}
+                    jobRole={item.jobRole}
+                    location={item.location}
+                  />
+                </Box>
+
+                <AboutSection about={item.jobDetailsFromCompany} />
+
+                <Button
+                  variant="contained"
+                  sx={{ width: "100%", marginTop: "20px", height: "50px" }}
+                >
+                  Easy Apply
+                </Button>
+              </Paper>
             </Grid>
           ))}
       </Grid>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
     </>
   );
 };

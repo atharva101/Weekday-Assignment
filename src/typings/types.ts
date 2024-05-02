@@ -7,4 +7,5 @@ export interface JdList {
   location: string;
   jobRole: string;
   jdLink: string;
+  jdUid:string
 }
