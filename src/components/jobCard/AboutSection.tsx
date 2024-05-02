@@ -15,12 +15,13 @@ const AboutSection = ({ about }: { about: string }) => {
       </Typography>
       <div
         style={{
-          maxHeight: "20.8em" ,
+          maxHeight: "20em" ,
           overflow: "hidden",
         }}
       >
-        <Typography sx={{}}>{about}</Typography>
+        <Typography>{about}</Typography>
       </div>
+
       <Button sx = {{margin: "auto", width: "100%"}}>Show More</Button>
     </Box>
   );

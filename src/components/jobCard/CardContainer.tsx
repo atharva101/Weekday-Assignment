@@ -6,7 +6,7 @@ import {
   fetchDataFailure,
 } from "../../store/dataSlice";
 import { RootState } from "../../store/store";
-import { Grid, Paper, Box, Button } from "@mui/material";
+import { Grid, Paper, Box, Button, Typography } from "@mui/material";
 import AboutSection from "./AboutSection";
 import InfoBox from "./InfoBox";
 import { JdList } from "../../typings/types";
@@ -62,14 +62,14 @@ const CardContainer = () => {
       fetchData();
     }
   };
+console.log(jdList, "hehe");
 
-  console.log(jdList, "hehe");
   
   return (
     <>
       <Grid container spacing={2} sx={{ flexGrow: 1, margin: "1rem" }}>
         {!!jdList?.length &&
-          jdList?.map((item: JdList) => (
+          jdList.map((item: JdList) => (
             <Grid item xs={12} sm={8} md={6} lg={4} key={item.jdUid}>
               <Paper
                 elevation={2}
@@ -96,10 +96,12 @@ const CardContainer = () => {
                 </Box>
 
                 <AboutSection about={item.jobDetailsFromCompany} />
-
+                {item?.minExp &&(
+                  <Typography sx= {{textAlign: "initial", fontSize: "13px", color: "#8B8B8B"}} >Minimum Experience <br></br> {item?.minExp}</Typography>
+                )}
                 <Button
                   variant="contained"
-                  sx={{ width: "100%", marginTop: "20px", height: "50px" }}
+                  sx={{ width: "100%", marginTop: "5px", height: "50px", marginBottom:"10px" }}
                 >
                   Easy Apply
                 </Button>
